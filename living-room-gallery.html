@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Living Room Portfolio — MK Interiors</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#232220; --ink-dim:#6B6760;
+    --forest:#3F5D54; --forest-bright:#4F7468; --line:rgba(35,34,32,0.12);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; line-height:1.6; }
+  a{ color:inherit; text-decoration:none; }
+  h1,h2{ font-family:'Fraunces', serif; font-weight:500; letter-spacing:-0.01em; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--forest); }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+
+  nav{ border-bottom:1px solid var(--line); padding:24px 0; }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; }
+  .logo{ font-family:'Fraunces', serif; font-weight:600; font-size:19px; display:flex; align-items:center; gap:9px; }
+  .logo .mark{ width:9px; height:9px; border-radius:50%; background:var(--forest); }
+  .back{ font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.05em; color:var(--ink-dim); border-bottom:1px solid var(--line); padding-bottom:2px; }
+  .back:hover{ color:var(--ink); border-color:var(--ink-dim); }
+
+  header.head{ padding:64px 0 48px; }
+  header.head h1{ font-size:clamp(34px,5vw,52px); margin:14px 0 14px; }
+  header.head p{ color:var(--ink-dim); max-width:480px; font-size:16.5px; }
+
+  .gallery{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; padding-bottom:90px; }
+  @media (max-width:720px){ .gallery{ grid-template-columns:1fr; } }
+  figure{ margin:0; background:var(--surface); border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+  figure img{ width:100%; height:340px; object-fit:cover; display:block; }
+  figcaption{ padding:16px 20px; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-dim); letter-spacing:0.03em; }
+
+  footer{ border-top:1px solid var(--line); padding:30px 0 44px; }
+  footer p{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-dim); letter-spacing:0.04em; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="mark"></span>MK Interiors</div>
+    <a class="back" href="mk-interiors.html">← Back to site</a>
+  </div>
+</nav>
+
+<header class="head">
+  <div class="wrap">
+    <span class="eyebrow">Room 02 — Portfolio</span>
+    <h1>Living room projects.</h1>
+    <p>Seating, lighting, and storage worked out together — rooms built for conversation first, then everything else.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="gallery">
+    <figure>
+      <img loading="lazy" src="https://images.unsplash.com/photo-1749930206000-179d0b85aa7e?w=1200&q=80&auto=format&fit=crop" alt="Sleek modern living room">
+      <figcaption>Low seating, sculptural lighting</figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" src="https://images.unsplash.com/photo-1759238136854-a43787126db7?w=1200&q=80&auto=format&fit=crop" alt="Living room with fireplace and minimalist decor">
+      <figcaption>Fireplace wall, minimalist styling</figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" src="https://images.unsplash.com/photo-1768609239321-1cfe14893e80?w=1200&q=80&auto=format&fit=crop" alt="Minimalist living room with white furniture">
+      <figcaption>White palette, open-plan living</figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" src="https://images.unsplash.com/photo-1758915753332-cab59126742c?w=1200&q=80&auto=format&fit=crop" alt="Living room with fireplace and pendant light">
+      <figcaption>Pendant lighting, calm neutrals</figcaption>
+    </figure>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap"><p>MK INTERIORS — KIRAN M, PRINCIPAL DESIGNER</p></div>
+</footer>
+
+</body>
+</html>

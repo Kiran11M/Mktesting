@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Consultation — MK Interiors</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#232220; --ink-dim:#6B6760;
+    --forest:#3F5D54; --forest-bright:#4F7468; --clay:#B8714F;
+    --line:rgba(35,34,32,0.12); --error:#B3413A;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; line-height:1.6; }
+  a{ color:inherit; text-decoration:none; }
+  h1,h2{ font-family:'Fraunces', serif; font-weight:500; letter-spacing:-0.01em; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--forest); }
+  .wrap{ max-width:680px; margin:0 auto; padding:0 32px; }
+
+  nav{ border-bottom:1px solid var(--line); padding:24px 0; }
+  nav .navwrap{ max-width:680px; margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; }
+  .logo{ font-family:'Fraunces', serif; font-weight:600; font-size:19px; display:flex; align-items:center; gap:9px; }
+  .logo .mark{ width:9px; height:9px; border-radius:50%; background:var(--forest); }
+  .back{ font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.05em; color:var(--ink-dim); border-bottom:1px solid var(--line); padding-bottom:2px; }
+  .back:hover{ color:var(--ink); border-color:var(--ink-dim); }
+
+  header.head{ padding:56px 0 36px; }
+  header.head h1{ font-size:clamp(30px,5vw,44px); margin:12px 0 12px; }
+  header.head p{ color:var(--ink-dim); font-size:16px; max-width:480px; }
+
+  form{ padding-bottom:30px; }
+  .field{ margin-bottom:20px; }
+  .field label{
+    display:block; font-family:'JetBrains Mono', monospace; font-size:11.5px;
+    letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-dim); margin-bottom:8px;
+  }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:560px){ .row2{ grid-template-columns:1fr; } }
+
+  input, select, textarea{
+    width:100%; font-family:'Inter', sans-serif; font-size:15px; color:var(--ink);
+    background:var(--surface); border:1px solid var(--line); border-radius:3px;
+    padding:12px 14px; outline:none; transition:border-color .15s;
+  }
+  input:focus, select:focus, textarea:focus{ border-color:var(--forest); }
+  textarea{ resize:vertical; min-height:96px; }
+  .required-mark{ color:var(--clay); }
+
+  .error-msg{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--error); margin-top:6px; display:none; }
+  .field.invalid input, .field.invalid select, .field.invalid textarea{ border-color:var(--error); }
+  .field.invalid .error-msg{ display:block; }
+
+  .submit-row{ display:flex; align-items:center; gap:16px; margin-top:8px; }
+  .btn-primary{
+    font-family:'Inter',sans-serif; font-weight:600;
+    background:var(--forest); color:#fff;
+    padding:13px 26px; border:none; border-radius:2px; font-size:14.5px;
+    cursor:pointer; transition:background .2s, transform .15s;
+  }
+  .btn-primary:hover{ background:var(--forest-bright); transform:translateY(-1px); }
+  .btn-primary:disabled{ opacity:0.6; cursor:default; transform:none; }
+  .submit-status{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-dim); }
+
+  .privacy-note{
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-dim);
+    border-top:1px solid var(--line); padding-top:18px; margin-top:8px; line-height:1.7;
+  }
+
+  /* Confirmation state */
+  #confirmation{ display:none; padding:50px 0 70px; text-align:center; }
+  #confirmation .check{
+    width:56px; height:56px; border-radius:50%; background:var(--forest);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 22px;
+  }
+  #confirmation .check svg{ width:24px; height:24px; }
+  #confirmation h2{ font-size:28px; margin-bottom:10px; }
+  #confirmation p{ color:var(--ink-dim); max-width:420px; margin:0 auto 26px; }
+  #confirmation .ref{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-dim); }
+
+  footer{ border-top:1px solid var(--line); padding:30px 0 44px; }
+  footer .navwrap{ max-width:680px; margin:0 auto; padding:0 32px; }
+  footer p{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-dim); letter-spacing:0.04em; }
+
+  /* Admin toggle */
+  .admin-toggle{
+    display:block; text-align:center; font-family:'JetBrains Mono', monospace;
+    font-size:11.5px; color:var(--ink-dim); margin-top:8px; cursor:pointer;
+    border-bottom:1px solid transparent;
+  }
+  .admin-toggle:hover{ color:var(--ink); border-color:var(--ink-dim); }
+  #admin-panel{ display:none; padding:24px 0 60px; border-top:1px solid var(--line); margin-top:10px; }
+  #admin-panel h3{ font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--forest); margin-bottom:16px; }
+  .booking-row{ background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:16px 18px; margin-bottom:12px; }
+  .booking-row .b-name{ font-family:'Fraunces', serif; font-size:16px; margin-bottom:4px; }
+  .booking-row .b-meta{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-dim); margin-bottom:6px; }
+  .booking-row .b-msg{ font-size:14px; color:var(--ink-dim); }
+  .empty-state{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-dim); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="navwrap">
+    <div class="logo"><span class="mark"></span>MK Interiors</div>
+    <a class="back" href="mk-interiors.html">← Back to site</a>
+  </div>
+</nav>
+
+<div id="form-view">
+  <header class="head wrap">
+    <span class="eyebrow">Get started</span>
+    <h1>Book a consultation.</h1>
+    <p>Tell Kiran a little about the space — these details are saved so nothing needs to be repeated on the call.</p>
+  </header>
+
+  <form id="booking-form" class="wrap" novalidate>
+    <div class="row2">
+      <div class="field" id="field-name">
+        <label for="name">Full name <span class="required-mark">*</span></label>
+        <input type="text" id="name" name="name" autocomplete="name">
+        <div class="error-msg">Please enter your name.</div>
+      </div>
+      <div class="field" id="field-phone">
+        <label for="phone">Phone <span class="required-mark">*</span></label>
+        <input type="tel" id="phone" name="phone" autocomplete="tel">
+        <div class="error-msg">Please enter a phone number.</div>
+      </div>
+    </div>
+
+    <div class="field" id="field-email">
+      <label for="email">Email <span class="required-mark">*</span></label>
+      <input type="email" id="email" name="email" autocomplete="email">
+      <div class="error-msg">Please enter a valid email address.</div>
+    </div>
+
+    <div class="row2">
+      <div class="field" id="field-room">
+        <label for="room">Project type <span class="required-mark">*</span></label>
+        <select id="room" name="room">
+          <option value="">Select one</option>
+          <option value="Kitchen">Kitchen</option>
+          <option value="Living Room">Living Room</option>
+          <option value="Both">Kitchen & Living Room</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="error-msg">Please select a project type.</div>
+      </div>
+      <div class="field" id="field-date">
+        <label for="date">Preferred date</label>
+        <input type="date" id="date" name="date">
+      </div>
+    </div>
+
+    <div class="field" id="field-budget">
+      <label for="budget">Budget range</label>
+      <select id="budget" name="budget">
+        <option value="">Prefer not to say</option>
+        <option value="Under $10k">Under $10k</option>
+        <option value="$10k–$25k">$10k–$25k</option>
+        <option value="$25k–$50k">$25k–$50k</option>
+        <option value="$50k+">$50k+</option>
+      </select>
+    </div>
+
+    <div class="field" id="field-message">
+      <label for="message">Tell us about the space</label>
+      <textarea id="message" name="message" placeholder="Current layout, what's not working, what you'd like instead..."></textarea>
+    </div>
+
+    <div class="submit-row">
+      <button type="submit" class="btn-primary" id="submit-btn">Submit request</button>
+      <span class="submit-status" id="submit-status"></span>
+    </div>
+
+    <p class="privacy-note">Submitting this form stores your details so Kiran can follow up — no information is shared outside MK Interiors.</p>
+  </form>
+</div>
+
+<div id="confirmation" class="wrap">
+  <div class="check">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#F7F5F0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  </div>
+  <h2>Request received.</h2>
+  <p>Kiran will reach out using the contact details you provided to confirm a time. Your inquiry has been saved.</p>
+  <p class="ref" id="ref-id"></p>
+</div>
+
+<div class="wrap">
+  <span class="admin-toggle" id="admin-toggle">View submitted inquiries (studio use)</span>
+  <div id="admin-panel">
+    <h3>Submitted inquiries</h3>
+    <div id="admin-list"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="navwrap"><p>MK INTERIORS — KIRAN M, PRINCIPAL DESIGNER</p></div>
+</footer>
+
+<script>
+  const form = document.getElementById('booking-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const submitStatus = document.getElementById('submit-status');
+
+  function setError(fieldId, show){
+    const el = document.getElementById(fieldId);
+    if(show){ el.classList.add('invalid'); } else { el.classList.remove('invalid'); }
+  }
+
+  function isValidEmail(value){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function validate(){
+    let valid = true;
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const room = document.getElementById('room').value;
+
+    setError('field-name', !name);
+    if(!name) valid = false;
+
+    setError('field-phone', !phone);
+    if(!phone) valid = false;
+
+    const emailInvalid = !email || !isValidEmail(email);
+    setError('field-email', emailInvalid);
+    if(emailInvalid) valid = false;
+
+    setError('field-room', !room);
+    if(!room) valid = false;
+
+    return valid;
+  }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(!validate()) return;
+
+    submitBtn.disabled = true;
+    submitStatus.textContent = 'Saving...';
+
+    const booking = {
+      name: document.getElementById('name').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      room: document.getElementById('room').value,
+      date: document.getElementById('date').value,
+      budget: document.getElementById('budget').value,
+      message: document.getElementById('message').value.trim(),
+      submittedAt: new Date().toISOString()
+    };
+
+    const refId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,7);
+
+    try{
+      const result = await window.storage.set('booking:' + refId, JSON.stringify(booking), true);
+      if(!result){
+        throw new Error('Storage returned no result');
+      }
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('confirmation').style.display = 'block';
+      document.getElementById('ref-id').textContent = 'Reference: ' + refId;
+    }catch(err){
+      console.error('Booking storage error:', err);
+      submitStatus.textContent = 'Something went wrong saving your request — please try again.';
+      submitBtn.disabled = false;
+    }
+  });
+
+  // Admin panel: lists all stored inquiries (shared storage, visible to anyone with this page)
+  const adminToggle = document.getElementById('admin-toggle');
+  const adminPanel = document.getElementById('admin-panel');
+  const adminList = document.getElementById('admin-list');
+  let loaded = false;
+
+  adminToggle.addEventListener('click', async function(){
+    const showing = adminPanel.style.display === 'block';
+    if(showing){
+      adminPanel.style.display = 'none';
+      return;
+    }
+    adminPanel.style.display = 'block';
+    if(loaded) return;
+
+    adminList.innerHTML = '<span class="empty-state">Loading...</span>';
+    try{
+      const listResult = await window.storage.list('booking:', true);
+      const keys = (listResult && listResult.keys) ? listResult.keys : [];
+      if(keys.length === 0){
+        adminList.innerHTML = '<span class="empty-state">No inquiries yet.</span>';
+        loaded = true;
+        return;
+      }
+      const items = [];
+      for(const key of keys){
+        try{
+          const r = await window.storage.get(key, true);
+          if(r && r.value){ items.push(JSON.parse(r.value)); }
+        }catch(innerErr){
+          console.error('Failed to load', key, innerErr);
+        }
+      }
+      items.sort((a,b) => (b.submittedAt || '').localeCompare(a.submittedAt || ''));
+      adminList.innerHTML = items.map(function(b){
+        const when = b.submittedAt ? new Date(b.submittedAt).toLocaleString() : '';
+        return '<div class="booking-row">' +
+          '<div class="b-name">' + escapeHtml(b.name || 'Unnamed') + '</div>' +
+          '<div class="b-meta">' + escapeHtml(b.room || '') + ' · ' + escapeHtml(b.email || '') + ' · ' + escapeHtml(b.phone || '') + ' · ' + when + '</div>' +
+          (b.message ? '<div class="b-msg">' + escapeHtml(b.message) + '</div>' : '') +
+          '</div>';
+      }).join('');
+      loaded = true;
+    }catch(err){
+      console.error('Admin list error:', err);
+      adminList.innerHTML = '<span class="empty-state">Could not load inquiries.</span>';
+    }
+  });
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+</html>
